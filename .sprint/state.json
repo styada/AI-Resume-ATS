@@ -1,0 +1,36 @@
+{
+  "idea": "AI Resume ATS Analyzer with Resume Roast Mode",
+  "project_root": "/tmp/AI-Resume-ATS",
+  "github_repo": "https://github.com/styada/AI-Resume-ATS",
+  "sprint": 1,
+  "stories": [
+    {
+      "id": "STORY-001",
+      "title": "FastAPI backend + resume file parsing",
+      "status": "pending",
+      "branch": "feature/STORY-001-backend-api"
+    },
+    {
+      "id": "STORY-002",
+      "title": "ATS scoring engine",
+      "status": "pending",
+      "branch": "feature/STORY-002-ats-engine"
+    },
+    {
+      "id": "STORY-003",
+      "title": "Resume Roast critique engine (5 personalities)",
+      "status": "pending",
+      "branch": "feature/STORY-003-roast-engine"
+    },
+    {
+      "id": "STORY-UI",
+      "title": "React frontend \u2014 full UI, dark mode, shareable cards",
+      "status": "pending",
+      "branch": "feature/STORY-UI-frontend"
+    }
+  ],
+  "decisions": [],
+  "standups": [],
+  "interrupted": false,
+  "started_at": "2026-05-24T02:31:56.494008"
+}
