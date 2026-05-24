@@ -1,60 +1,79 @@
 # AI-Resume-ATS
 
-AI-powered resume analyzer with ATS scoring and a "Resume Roast" mode for blunt feedback.
+> AI-powered resume analysis — ATS scoring + Resume Roast mode.
 
-## Features
+## What it does
 
-- Upload PDF or DOCX resumes
-- ATS keyword scoring against any job description
-- Resume Roast mode — 5 reviewer personalities streaming live critiques
-- Dark-mode React UI with progressive critique reveal
+- **ATS Scoring** — paste your resume and a job description, get a scored breakdown:
+  keyword match (40 pts), section completeness (20 pts), formatting compliance (20 pts),
+  quantified impact (20 pts), plus ranked suggestions.
+- **Resume Roast** — choose one of 5 brutal reviewer personalities and get progressive
+  streaming critiques with quotes, psychology, and rewrite suggestions.
+- **File parsing** — upload PDF or DOCX; the backend extracts text, sections, and contact info.
 
-## Quick Start
+## Stack
 
-### 1. Clone & configure
+| Layer | Tech |
+|-------|------|
+| Backend | Python 3.11 + FastAPI |
+| Frontend | React 18 + Vite + TypeScript + Tailwind v4 |
+| Parsing | pdfplumber + python-docx |
+| AI (optional) | OpenAI-compatible API for AI-powered roast |
 
-```bash
-git clone git@github.com:styada/AI-Resume-ATS.git
-cd AI-Resume-ATS
-cp .env.example .env
-# Edit .env — set OPENAI_API_BASE, OPENAI_API_KEY, OPENAI_MODEL
-```
+## Quick start
 
-### 2. Run the backend
+### Backend
 
 ```bash
 cd backend
-python -m venv .venv && source .venv/bin/activate
+python -m venv venv && source venv/bin/activate
 pip install -r requirements.txt
-python -m spacy download en_core_web_sm
-uvicorn main:app --reload --port 8000
+
+# Optional: for AI-powered roast mode
+cp ../.env.example .env
+# Fill in OPENAI_API_BASE and OPENAI_API_KEY
+
+uvicorn main:app --reload
+# API at http://localhost:8000
 ```
 
-Backend runs at http://localhost:8000
-
-### 3. Run the frontend
+### Frontend
 
 ```bash
 cd frontend
 npm install
 npm run dev
+# UI at http://localhost:5173
 ```
 
-Frontend runs at http://localhost:5173. API calls are proxied to the backend automatically.
+## API
 
-### 4. Build for production
+| Method | Path | Description |
+|--------|------|-------------|
+| GET | /health | Liveness check |
+| POST | /api/parse-resume | Upload PDF/DOCX → parsed sections + contact |
+| POST | /api/ats-score | JSON body → ATS score + breakdown |
+| POST | /api/roast | JSON body → SSE stream of critique items |
+
+## Environment variables
+
+See `.env.example`. All optional — the backend runs in rule-based mode without any API keys.
+
+| Variable | Purpose |
+|----------|---------|
+| `OPENAI_API_BASE` | OpenAI-compatible API base URL (enables AI roast) |
+| `OPENAI_API_KEY` | API key for above |
+| `OPENAI_MODEL` | Model to use (default: gpt-3.5-turbo) |
+| `CORS_ORIGINS` | Comma-separated allowed origins (default: *) |
+
+## Tests
 
 ```bash
-cd frontend
-npm run build
-# Serve the dist/ folder from your backend or any static host
+cd backend
+pytest tests/ -v
+# 8 tests, all passing
 ```
 
-## Stack
+## Release
 
-- **Backend**: Python 3.11, FastAPI, pdfplumber, python-docx, spaCy, OpenAI-compatible API
-- **Frontend**: React 18, Vite, TypeScript, Tailwind CSS v4
-
-## Environment Variables
-
-See `.env.example` for all required variables.
+v1.0.0 — Sprint 1 complete.
